@@ -14,12 +14,13 @@ const BookDetailsScreen = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/books/${bookId}`, {
+        const response = await axios.get(`http://localhost:3000/api/livros/editar/${bookId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setBook(response.data);
       } catch (error) {
         console.error(error);
+        alert('Erro ao carregar os detalhes do livro!');
       }
     };
     fetchBook();
@@ -27,13 +28,14 @@ const BookDetailsScreen = () => {
 
   const handleDeleteBook = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/books/${bookId}`, {
+      await axios.delete(`http://localhost:3000/api/livros/excluir/${bookId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Livro excluído com sucesso!');
-      navigation.goBack(); // Volta para a lista de livros após a exclusão
+      navigation.goBack();
     } catch (error) {
       console.error(error);
+      alert('Erro ao excluir o livro!');
     }
   };
 
@@ -41,8 +43,9 @@ const BookDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{book.title}</Text>
-      <Text>Autor: {book.author}</Text>
+      <Text style={styles.title}>{book.nome}</Text>
+      <Text>Autor: {book.autor}</Text>
+      <Text>Valor: {book.valor}</Text> {/* Se você também quiser mostrar o valor */}
       <Button title="Excluir Livro" onPress={handleDeleteBook} />
     </View>
   );

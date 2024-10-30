@@ -5,17 +5,26 @@ import { UserContext } from '../contexts/UserContext';
 
 const AddBookScreen = () => {
   const { token } = useContext(UserContext);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
+  const [nome, setNome] = useState('');
+  const [autor, setAutor] = useState('');
+  const [valor, setValor] = useState('');
 
   const handleAddBook = async () => {
     try {
-      await axios.post('http://localhost:3000/api/books', { title, author }, {
+      await axios.post('http://localhost:3000/api/livros/novo', {
+        nome,
+        autor,
+        valor,
+      }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Livro adicionado com sucesso!');
+      setNome('');
+      setAutor('');
+      setValor('');
     } catch (error) {
       console.error(error);
+      alert('Erro ao adicionar livro!');
     }
   };
 
@@ -23,15 +32,22 @@ const AddBookScreen = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Título do livro"
-        value={title}
-        onChangeText={setTitle}
+        placeholder="Nome do livro"
+        value={nome}
+        onChangeText={setNome}
       />
       <TextInput
         style={styles.input}
         placeholder="Autor do livro"
-        value={author}
-        onChangeText={setAuthor}
+        value={autor}
+        onChangeText={setAutor}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Valor do livro"
+        value={valor}
+        onChangeText={setValor}
+        keyboardType="numeric"
       />
       <Button title="Adicionar Livro" onPress={handleAddBook} />
     </View>

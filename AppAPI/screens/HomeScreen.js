@@ -1,13 +1,17 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { UserContext } from '../contexts/UserContext';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const { user } = useContext(UserContext);
 
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Seja Bem Vindo, {user}!</Text>
+      <Button
+        title="Ir para Livros"
+        onPress={() => navigation.navigate('AddBook')} // Navega para o tab navigator de livros
+      />
     </View>
   );
 };

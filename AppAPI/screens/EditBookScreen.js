@@ -2,23 +2,26 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { UserContext } from '../contexts/UserContext';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 const EditBookScreen = () => {
   const { token } = useContext(UserContext);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
+  const [nome, setNome] = useState('');
+  const [autor, setAutor] = useState('');
+  const [valor, setValor] = useState('');
   const route = useRoute();
   const { bookId } = route.params;
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/books/${bookId}`, {
+        const response = await axios.get(`http://localhost:3000/api/livros/editar/${bookId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setTitle(response.data.title);
-        setAuthor(response.data.author);
+        setNome(response.data.nome);
+        setAutor(response.data.autor);
+        setValor(response.data.valor); 
       } catch (error) {
         console.error(error);
       }
@@ -28,12 +31,18 @@ const EditBookScreen = () => {
 
   const handleEditBook = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/books/${bookId}`, { title, author }, {
+      await axios.put(`http://localhost:3000/api/livros/editar/${bookId}`, { 
+        nome,
+        autor,
+        valor, 
+      }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Livro atualizado com sucesso!');
+      navigation.navigate('BookList');
     } catch (error) {
       console.error(error);
+      alert('Erro ao atualizar livro!'); 
     }
   };
 
@@ -41,15 +50,22 @@ const EditBookScreen = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Título do livro"
-        value={title}
-        onChangeText={setTitle}
+        placeholder="Nome do livro" 
+        value={nome}
+        onChangeText={setNome}
       />
       <TextInput
         style={styles.input}
         placeholder="Autor do livro"
-        value={author}
-        onChangeText={setAuthor}
+        value={autor}
+        onChangeText={setAutor}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Valor do livro"
+        value={valor}
+        onChangeText={setValor}
+        keyboardType="numeric" 
       />
       <Button title="Salvar Alterações" onPress={handleEditBook} />
     </View>
