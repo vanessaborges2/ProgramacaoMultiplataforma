@@ -45,7 +45,7 @@ const BookDetailsScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>{book.nome}</Text>
       <Text>Autor: {book.autor}</Text>
-      <Text>Valor: {book.valor}</Text> {/* Se você também quiser mostrar o valor */}
+      <Text>Valor: {book.valor}</Text>
       <Button title="Excluir Livro" onPress={handleDeleteBook} />
     </View>
   );

@@ -3,14 +3,20 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { UserContext } from '../contexts/UserContext';
 
 const HomeScreen = ({ navigation }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser, setToken } = useContext(UserContext);
+
+  const logout = () =>{
+    setUser("");
+    setToken("");
+    navigation.navigate("Login");
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Seja Bem Vindo, {user}!</Text>
       <Button
-        title="Ir para Livros"
-        onPress={() => navigation.navigate('AddBook')} // Navega para o tab navigator de livros
+        title="Sair"
+        onPress={logout} // Navega para o tab navigator de livros
       />
     </View>
   );

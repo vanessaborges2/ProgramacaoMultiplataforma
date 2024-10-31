@@ -13,7 +13,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', { email, senha });
-      const userName = response.data.name;
+      //const userName = response.data.name;
       const userToken = response.data.token; // Obtém o token da resposta
       setUser("Usuário");  // Armazena o nome do usuário - faça uma chamada a API para buscar o nome do usuário
       setToken(userToken); // Armazena o token no contexto
